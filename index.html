@@ -684,9 +684,9 @@
             <div class="row">
               <div class="col-xl-10 col-lg-8 mx-auto">
                 <div class="section-title text-center">
-                  <span>Let’s Connect and Grow</span>
+                  <span>Let's Connect and Grow</span>
                   <h2>Sow a Message, Reap a Reply</h2>
-                  <p>Reach out for harvests bright, for partnership, products, or learning’s delight.</p>
+                  <p>Reach out for harvests bright, for partnership, products, or learning's delight.</p>
                 </div>
               </div>
             </div>
@@ -826,14 +826,23 @@
     document.addEventListener('DOMContentLoaded', function() {
       var form = document.querySelector('.contact-form');
       if(form) {
+        var sendBtn = form.querySelector('button[type="submit"]');
+        var originalBtnHTML = sendBtn.innerHTML;
         form.addEventListener('submit', function(event) {
           event.preventDefault();
+          // Show spinner and disable button
+          sendBtn.disabled = true;
+          sendBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Sending…';
           emailjs.sendForm('service_sq4tlgo', 'template_p8a86uv', this)
             .then(function() {
               alert('Message sent successfully!');
               form.reset();
+              sendBtn.disabled = false;
+              sendBtn.innerHTML = originalBtnHTML;
             }, function(error) {
               alert('Failed to send message: ' + JSON.stringify(error));
+              sendBtn.disabled = false;
+              sendBtn.innerHTML = originalBtnHTML;
             });
         });
       }
